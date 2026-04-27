@@ -35,8 +35,8 @@ st.markdown(f"Update Data Terakhir: **{last_date.strftime('%d %B %Y')}**")
 st.markdown("---")
 
 # --- BAGIAN 1: KPI (Key Performance Indicators) ---
-# Menghitung angka ringkasan
-total_revenue = df['Total'].sum()
+# Menghitung angka ringkasan (REVISI: Menggunakan kolom 'Sales' bukan 'Total')
+total_revenue = df['Sales'].sum()
 total_gross_income = df['gross income'].sum()
 top_category = df.groupby('Product line')['Quantity'].sum().idxmax()
 
@@ -55,9 +55,10 @@ col_chart1, col_chart2 = st.columns(2)
 
 with col_chart1:
     st.subheader("🛒 Penjualan per Kategori Produk")
-    df_cat = df.groupby('Product line')['Total'].sum().reset_index()
-    fig1 = px.bar(df_cat, x='Total', y='Product line', orientation='h', 
-                  color='Total', color_continuous_scale='Viridis')
+    # REVISI: Menggunakan kolom 'Sales'
+    df_cat = df.groupby('Product line')['Sales'].sum().reset_index()
+    fig1 = px.bar(df_cat, x='Sales', y='Product line', orientation='h', 
+                  color='Sales', color_continuous_scale='Viridis')
     fig1.update_layout(showlegend=False, yaxis={'categoryorder':'total ascending'})
     st.plotly_chart(fig1, use_container_width=True)
 
